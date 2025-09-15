@@ -1,0 +1,9 @@
+[project]
+name = "eu-liquidation-radar"
+version = "0.1.0"
+description = "Telegram bot that scans EU liquidation marketplaces and alerts you on profitable lots."
+requires-python = ">=3.10"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
