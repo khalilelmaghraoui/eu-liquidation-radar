@@ -9,6 +9,11 @@ from app.config import settings
 async def start_scheduler(bot: Bot) -> AsyncIOScheduler:
     sched = AsyncIOScheduler(timezone="UTC")
     sched.add_job(run_scrape_cycle, CronTrigger(minute=settings.HOURLY_SCRAPE_MINUTE))
-    sched.add_job(lambda: send_hourly_digest(bot), CronTrigger(minute=(settings.HOURLY_SCRAPE_MINUTE + 2) % 60))
+    # pass async function directly with args — no lambda that returns a coroutine
+    sched.add_job(
+        send_hourly_digest,
+        CronTrigger(minute=(settings.HOURLY_SCRAPE_MINUTE + 2) % 60),
+        args=[bot],
+    )
     sched.start()
     return sched
